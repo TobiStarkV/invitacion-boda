@@ -109,6 +109,7 @@
       text-align: center;
     }
 
+
     /* Video a pantalla completa */
     #video {
       position: absolute;
@@ -210,6 +211,7 @@
       filter: drop-shadow(0 0 2px rgba(0,0,0,0.1));
     }
 
+
     /* Responsive */
   @media (max-width: 600px) {
   .boton-mapa.templo,
@@ -227,10 +229,20 @@
     font-size: 1rem;
   }
 }
-
+.oculto {
+  display: none;
+}
   </style>
 </head>
 <body>
+  <a
+  id="mesa-regalos"
+  href="mesa.html"
+  class="boton oculto"
+  style="position: absolute; z-index: 10"
+>
+  Mesa de regalos
+</a>
 
   <h1>Gabriela y Victor</h1>
   <p class="subtitle">"El amor es la libertad de volar acompañado"</p>
@@ -251,7 +263,7 @@
       ¿Cómo llegar a la recepción?
     </a>
   </div>
-    <div class="boton-mapa mesa">
+   <div class="boton-mapa mesa oculto" id="contenedor-mesa">
   <a class="btn-mapa" href="https://www.amazon.com.mx/hz/wishlist/ls/TU_LISTA_ID" target="_blank" rel="noopener noreferrer">
     Ver mesa de regalos
   </a>
@@ -262,24 +274,39 @@
 
 
 
-  <script>
-    const video = document.getElementById('video');
-    const botones = document.getElementById('botones');
+<script>
+  const video = document.getElementById('video');
+  const botones = document.getElementById('botones');
+  const contenedorMesa = document.getElementById('contenedor-mesa');
 
-    video.addEventListener('pause', () => {
+  let videoFinalizado = false;
+
+  video.addEventListener('pause', () => {
+    if (!videoFinalizado) {
       botones.classList.add('visible');
       botones.classList.remove('final');
-    });
-    video.addEventListener('ended', () => {
-      botones.classList.add('visible');
-      botones.classList.add('final');
-      video.style.display = "none"; // 👈 Esto oculta el video cuando termina
-    });
-    video.addEventListener('play', () => {
+      contenedorMesa.classList.add('oculto'); // Asegura que no se muestre en pausa
+    }
+  });
+
+  video.addEventListener('ended', () => {
+    videoFinalizado = true;
+    botones.classList.add('visible');
+    botones.classList.add('final');
+    contenedorMesa.classList.remove('oculto'); // Mostramos el botón al final
+    video.style.display = "none"; // Opcional: ocultar video
+  });
+
+  video.addEventListener('play', () => {
+    if (!videoFinalizado) {
       botones.classList.remove('visible');
       botones.classList.remove('final');
-    });
-  </script>
+      contenedorMesa.classList.add('oculto');
+    }
+  });
+</script>
+
+
 
 </body>
 </html>
