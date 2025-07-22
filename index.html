@@ -2,177 +2,123 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Invitación de Boda - Víctor y Gabriela</title>
 
-  <!-- Google Fonts v3 -->
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat&display=swap" rel="stylesheet" />
 
   <style>
     /* Reset y base */
     * {
-      margin: 0; padding: 0; box-sizing: border-box;
-      /* Nueva distribución al final del video */
-#botones {
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  padding: 30px;
-  gap: 20px;
-  text-align: center;
-}
-#botones.final .boton-mapa.templo {
-  background: url('templo.png') center/cover no-repeat;
-}
-
-#botones.final .boton-mapa.recepcion {
-  background: url('recepcion.png') center/cover no-repeat;
-}
-
-#botones.final .boton-mapa.mesa {
-  background: center/cover no-repeat;
-}
-
-/* Botón con fondo del templo */
-.boton-mapa.templo {
-  flex: 1 1 250px;
-  min-height: 180px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  border-radius: 12px;
-  overflow: hidden;
-  position: relative;
-}
-
-/* Botón con fondo del salón */
-.boton-mapa.recepcion {
-  flex: 1 1 250px;
-  min-height: 180px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  border-radius: 12px;
-  overflow: hidden;
-  position: relative;
-}
-
-
-
-/* Estilos compartidos */
-.btn-mapa,
-.btn-central {
-  background-color: rgba(255,255,255,0.85);
-  color: #0d3b66;
-  font-weight: bold;
-  font-size: 1.1rem;
-  padding: 14px 24px;
-  border-radius: 10px;
-  margin: 20px;
-  text-decoration: none;
-  backdrop-filter: blur(4px);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-  transition: background-color 0.3s ease;
-}
-.btn-mapa:hover,
-.btn-central:hover {
-  background-color: rgba(255,255,255,1);
-}
-
-/* Responsive para vista vertical */
-@media (max-aspect-ratio: 3/4) {
-  #botones {
-    flex-direction: column;
-    align-items: stretch;
-  }
-}
-
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
+
     body, html {
-      height: 100%; width: 100%; margin: 0;
-      overflow: hidden; /* Para evitar scroll no deseado */
-      touch-action: manipulation;
-  -webkit-overflow-scrolling: touch;
+      height: 100%;
+      width: 100%;
+      margin: 0;
       font-family: 'Montserrat', sans-serif;
       background: url('flores_azules.jpeg') center center / cover no-repeat fixed;
-      background-color: #e3f2fd; /* Color de respaldo si no carga la imagen */
-      color: #0d3b66; /* azul oscuro */
-      overflow-x: hidden;
-      overflow-y: auto;
-      position: relative;
+      background-color: #e3f2fd;
+      color: #0d3b66;
+      overflow: hidden; /* Evita el scroll mientras se ve el video */
       text-align: center;
+      position: relative;
     }
 
+    /* Portada inicial */
+    #portada {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(227, 242, 253, 0.8); /* Fondo semi-transparente */
+      backdrop-filter: blur(10px);
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.8s ease;
+    }
+
+    #portada.oculto {
+      opacity: 0;
+      pointer-events: none; /* Impide interactuar con la portada oculta */
+    }
+
+    #btn-play {
+      background-color: #2196f3;
+      color: white;
+      font-weight: 600;
+      font-size: 1.2rem;
+      padding: 15px 35px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      text-transform: uppercase;
+      box-shadow: 0 4px 20px rgba(33, 150, 243, 0.5);
+      transition: all 0.3s ease;
+    }
+
+    #btn-play:hover {
+      background-color: #1565c0;
+      transform: scale(1.05);
+    }
 
     /* Video a pantalla completa */
     #video {
       position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-   object-fit: contain;  /* Cambiado de cover a contain */
-  background: black;    /* Para que se vea bien el área vacía */
-  z-index: 1;
-  max-width: 100vw;
-  max-height: 100vh;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: black;
+      z-index: 1;
     }
 
-    /* Contenedor de botones */
-.overlay {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: none;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 14px;
-  align-items: center;
+    /* Contenedor de botones (Overlay) */
+    .overlay {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: none; /* Inicia oculto */
+      flex-direction: column;
+      gap: 20px;
+      width: 90%;
+      max-width: 500px;
+      z-index: 10;
+      opacity: 0;
+      animation-fill-mode: forwards;
+    }
 
-  max-width: 90vw;
-  z-index: 10;
-  opacity: 0;
-  animation-fill-mode: forwards;
-}
-
-
-    /* Clase para mostrar con fadeIn */
     .overlay.visible {
       display: flex;
       animation: fadeIn 0.6s ease forwards;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px) translateX(-50%); }
-      to { opacity: 1; transform: translateY(0) translateX(-50%); }
-    }
-
-    /* Botones estilizados */
-    .btn {
-      padding: 14px 28px;
-      background-color: #2196f3; /* azul cielo más intenso */
-      color: white;
-      font-weight: 600;
-      font-size: 1.1rem;
-      border-radius: 10px;
-      text-decoration: none;
-      box-shadow: 0 4px 15px rgba(33,150,243,0.5);
-      transition: background-color 0.3s ease;
-      user-select: none;
-    }
-    .btn:hover {
-      background-color: #1565c0;
+      from {
+        opacity: 0;
+        transform: translate(-50%, -45%);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
     }
 
     /* Título elegante */
     h1 {
       font-family: 'Great Vibes', cursive;
       font-size: 3.5rem;
-      margin-top: 40px;
       color: #0d3b66;
       text-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      user-select: none;
     }
 
     /* Texto secundario */
@@ -181,119 +127,131 @@
       margin: 10px 0 40px;
       font-style: italic;
       color: #1e4f8a;
-      user-select: none;
-
-    /* Estilo tipo "card" como los botones */
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(px);
-    padding: 12px 20px;
-    border-radius: 14px;
-    max-width: 90vw;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    display: inline-block;
     }
 
-    /* Flores azules en esquina */
-    .flores {
-      position: fixed;
-      top: 20px;
-      right: 100vh;
-      width: 100vw;
-      opacity: 0.28;
-      pointer-events: none;
-      user-select: none;
-      z-index: 5;
-      filter: drop-shadow(0 0 2px rgba(0,0,0,0.1));
+    /* Contenedor de los botones de mapa y regalos */
+    #botones {
+      align-items: stretch; /* Hace que los botones tengan el mismo alto */
     }
 
+    .boton-mapa {
+      min-height: 160px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.3s ease;
+    }
 
-    /* Responsive */
-  @media (max-width: 600px) {
-  .boton-mapa.templo,
-  .boton-mapa.recepcion {
-    min-height: 140px;
-    flex: 1 1 100%;
-  }
+    .boton-mapa:hover {
+        transform: scale(1.03);
+    }
 
-  .btn-mapa {
-    font-size: 1rem;
-    padding: 12px 16px;
-  }
+    #botones.final .boton-mapa.templo {
+      background-image: url('templo.png');
+    }
+    #botones.final .boton-mapa.recepcion {
+      background-image: url('recepcion.png');
+    }
+    #botones.final .boton-mapa.mesa {
+      background-color: rgba(255, 255, 255, 0.7);
+      background-image: url('mesa_de_regalos.jpg');
+    }
 
-  .subtitle {
-    font-size: 1rem;
-  }
-}
-.oculto {
-  display: none;
-}
+    .btn-mapa {
+      background-color: rgba(255,255,255,0.85);
+      color: #0d3b66;
+      font-weight: bold;
+      font-size: 1.1rem;
+      padding: 14px 24px;
+      border-radius: 10px;
+      margin: 20px;
+      text-decoration: none;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: background-color 0.3s ease;
+    }
+    .btn-mapa:hover {
+      background-color: white;
+    }
+
+    .oculto {
+      display: none !important;
+    }
   </style>
 </head>
 <body>
 
-  <h1>Gabriela y Victor</h1>
-  <p class="subtitle">"El amor es la libertad de volar acompañado"</p>
+  <div id="portada">
+    <h1>Gabriela y Victor</h1>
+    <p class="subtitle">"El amor es la libertad de volar acompañado"</p>
+    <button id="btn-play">Ver Invitación</button>
+  </div>
 
-  <video id="video" autoplay playsinline controls>
-<source src="invitacion.mp4" type="video/mp4" />
+  <video id="video" playsinline controls>
+    <source src="invitacion.mp4" type="video/mp4" />
     Tu navegador no soporta el video.
   </video>
 
   <div class="overlay" id="botones">
-  <div class="boton-mapa templo">
-    <a class="btn-mapa" href="https://www.google.com/maps/place/Templo+de+San+Francisco/@19.5131905,-101.6151082,17z/data=!3m1!4b1!4m6!3m5!1s0x842d969cc4d60fb9:0x340242c4bcd54c47!8m2!3d19.5131905!4d-101.6125333!16s%2Fg%2F11c1r2n0xq?entry=ttu&g_ep=EgoyMDI1MDcxNi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer">
-      ¿Cómo llegar al templo?
-    </a>
+    <div class="boton-mapa templo">
+      <a class="btn-mapa" href="https://maps.app.goo.gl/No5AAe3NRiCofw5a9" target="_blank" rel="noopener noreferrer">
+        ¿Cómo llegar al templo?
+      </a>
+    </div>
+    <div class="boton-mapa recepcion">
+      <a class="btn-mapa" href="https://maps.app.goo.gl/zGyPaf5Z3DLCvHhk8" target="_blank" rel="noopener noreferrer">
+        ¿Cómo llegar a la recepción?
+      </a>
+    </div>
+    <div class="boton-mapa mesa oculto" id="contenedor-mesa">
+      <a class="btn-mapa" href="#" target="_blank" rel="noopener noreferrer">
+        Ver mesa de regalos
+      </a>
+    </div>
   </div>
-  <div class="boton-mapa recepcion">
-    <a class="btn-mapa" href="https://www.google.com/maps/place/Sal%C3%B3n+de+Eventos+Imperio/@19.5066653,-101.613738,17z/data=!3m1!4b1!4m6!3m5!1s0x842d97dfb5c5edad:0xd6ed3f64f833dc0c!8m2!3d19.5066653!4d-101.6111631!16s%2Fg%2F11h2fdqx4n?entry=ttu&g_ep=EgoyMDI1MDcxNi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer">
-      ¿Cómo llegar a la recepción?
-    </a>
-  </div>
-   <div class="boton-mapa mesa oculto" id="contenedor-mesa">
-  <a class="btn-mapa" href="https://www.amazon.com.mx/hz/wishlist/ls/TU_LISTA_ID" target="_blank" rel="noopener noreferrer">
-    Ver mesa de regalos
-  </a>
-</div>
 
-</div>
+  <script>
+    const portada = document.getElementById('portada');
+    const btnPlay = document.getElementById('btn-play');
+    const video = document.getElementById('video');
+    const botones = document.getElementById('botones');
+    const contenedorMesa = document.getElementById('contenedor-mesa');
 
+    let videoFinalizado = false;
 
+    btnPlay.addEventListener('click', () => {
+      portada.classList.add('oculto');
+      video.play();
+      document.body.style.overflowY = 'auto';
+    });
 
+    video.addEventListener('pause', () => {
+      if (!videoFinalizado && portada.classList.contains('oculto')) {
+        botones.classList.add('visible');
+        botones.classList.remove('final');
+        contenedorMesa.classList.add('oculto');
+      }
+    });
 
-<script>
-  const video = document.getElementById('video');
-  const botones = document.getElementById('botones');
-  const contenedorMesa = document.getElementById('contenedor-mesa');
+    video.addEventListener('ended', () => {
+      videoFinalizado = true;
+      video.style.display = "none";
 
-  let videoFinalizado = false;
+      botones.classList.add('visible', 'final');
+      contenedorMesa.classList.remove('oculto');
+    });
 
-  video.addEventListener('pause', () => {
-    if (!videoFinalizado) {
-      botones.classList.add('visible');
-      botones.classList.remove('final');
-      contenedorMesa.classList.add('oculto'); // Asegura que no se muestre en pausa
-    }
-  });
-
-  video.addEventListener('ended', () => {
-    videoFinalizado = true;
-    botones.classList.add('visible');
-    botones.classList.add('final');
-    contenedorMesa.classList.remove('oculto'); // Mostramos el botón al final
-    video.style.display = "none"; // Opcional: ocultar video
-  });
-
-  video.addEventListener('play', () => {
-    if (!videoFinalizado) {
-      botones.classList.remove('visible');
-      botones.classList.remove('final');
-      contenedorMesa.classList.add('oculto');
-    }
-  });
-</script>
-
-
+    video.addEventListener('play', () => {
+      if (!videoFinalizado) {
+        botones.classList.remove('visible');
+      }
+    });
+  </script>
 
 </body>
 </html>
