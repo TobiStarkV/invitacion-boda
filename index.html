@@ -97,6 +97,13 @@
       animation-fill-mode: forwards;
     }
 
+    /* ✅ Overlay en la parte inferior cuando el video se pausa */
+  .overlay.inferior {
+    top: auto;
+    bottom: 40px;
+    transform: translateX(-50%);
+  }
+
     .overlay.visible {
       display: flex;
       animation: fadeIn 0.6s ease forwards;
@@ -146,6 +153,8 @@
       background-position: center;
       transition: transform 0.3s ease;
     }
+
+
 
     .boton-mapa:hover {
         transform: scale(1.03);
@@ -232,7 +241,7 @@
 
     video.addEventListener('pause', () => {
       if (!videoFinalizado && portada.classList.contains('oculto')) {
-        botones.classList.add('visible');
+        botones.classList.add('visible', 'inferior');
         botones.classList.remove('final');
         contenedorMesa.classList.add('oculto');
       }
@@ -243,6 +252,7 @@
       video.style.display = "none";
 
       botones.classList.add('visible', 'final');
+      botones.classList.remove('inferior');
       contenedorMesa.classList.remove('oculto');
     });
 
