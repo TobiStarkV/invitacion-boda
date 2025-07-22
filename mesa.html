@@ -7,12 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet"/>
-
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     html, body {
       margin: 0;
       padding: 0;
@@ -21,17 +16,18 @@
       font-family: 'Great Vibes', cursive;
       color: white;
       text-align: center;
-      overflow: hidden;
     }
 
-    .fondo-img {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-      z-index: -1;
+    body {
+      background-image: url('mesaImagen.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: scroll;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
     }
 
     .mensaje {
@@ -41,7 +37,6 @@
       box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
       font-size: 2.5rem;
       max-width: 90%;
-      margin: auto;
     }
 
     @media (max-width: 600px) {
@@ -53,8 +48,6 @@
   </style>
 </head>
 <body>
-  <img src="mesaImagen.jpg" alt="Fondo Mesa de Regalos" class="fondo-img" />
-
   <div class="mensaje">
     Para nosotros el mejor regalo es su presencia. 💝<br><br>
     Nos sentimos bendecidos al tener amigos y familiares como tú.<br><br>
